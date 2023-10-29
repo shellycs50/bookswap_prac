@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
+import Review from "./Review"
 import './BookDetails.css'
 function BookDetailPath() {
     const [title, setTitle] = useState('')
@@ -82,7 +83,10 @@ function BookDetailPath() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [returnEmail, setReturnEmail] = useState('')
+    const [reviewname, setReviewName] = useState('')
+    const [reviewText, setReviewText] = useState('Review')
 
+    // ** CLAIM BOOK FORM SUBMIT
     function claimAttempt(event) {
         // submit claim request for relevant book
         console.log('submitted')
@@ -114,15 +118,80 @@ function BookDetailPath() {
         .catch((error) => {
             console.error('Error:', error);
             // Some other error. issue apology.
+            console.log('something else went wrong with claiming')
         });
         
 
     }
 
-    function returnAttempt() {
+        // ** RETURN BOOK FORM SUBMIT
+    function returnAttempt(event) {
         console.log('tried to return a book')
+        event.preventDefault();
+
+        let submitted_email = event.target.returnemail.value
+
+        fetch('https://book-swap-api.dev.io-academy.uk/api/books/return/' + id, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: submitted_email,
+            }),
+        })
+        .then((res) => {
+            if (res.ok) {
+                console.log('Return request submitted successfully.');
+                // Successfully Claimed
+            } else {
+                console.error('Failed to submit return request.');
+                // Error in Claiming
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Some other error. issue apology.
+            console.log('something else went wrong with returning')
+        });
     }
     
+    // ** REVIEW BOOK FORM SUBMIT
+    function reviewSubmit(event) {
+        event.preventDefault()
+        console.log('tried to submit a review')
+        console.log(`REVIEW DETAILS: name: ${event.target.reviewname.value}, rating: ${parseInt(event.target.rating.value)}, review: ${event.target.review.value}, book_id: ${id} `)
+        fetch('https://book-swap-api.dev.io-academy.uk/api/reviews', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                'name': event.target.reviewname.value,
+                'rating': parseInt(event.target.rating.value),
+                'review': event.target.review.value,
+                'book_id': id,
+            }),
+        })
+        .then((res) => {
+            if (res.ok) {
+                console.log('Review submitted successfully.');
+                // Successfully Claimed 
+            } else {
+                console.error('Failed to submit Review.');
+                // Error in Claiming -> add functionality for handling like if (event.target.reviewname.value == '' etc) render the book page again WITH an element that informs the user of their mistake
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Some other error. issue apology.
+            console.log('something else went wrong with Reviewing')
+        });
+
+
+    }
 
     return (
         // 2 row flex
@@ -137,7 +206,7 @@ function BookDetailPath() {
                 <p>{pageCount}</p>
                 <p>{genre}</p>
                 <p>{reviewCount} reviews - {reviewAverage}/5 stars</p>
-                <p>{blurb}</p>
+                
                 
                 {/* if book is claimed render return book form, else render claim book form */}
 
@@ -147,9 +216,9 @@ function BookDetailPath() {
                     <p> Enter {claimed}'s Email Address:</p>
                     <form className='claim-book' onSubmit={returnAttempt}>
         
-                    <label htmlFor="email" value={returnEmail} onChange={setReturnEmail}>Email:</label>
-                    <input type="email" id='email'></input>
-                    <input type='submit'></input>
+                    <label htmlFor="returnemail" value={returnEmail} onChange={setReturnEmail}>Email:</label>
+                    <input type="email" id='returnemail'></input>
+                    <input type='submit' value='Return'></input>
 
                 </form>
                 <p onClick={detailExit}>CLICK TO EXIT</p>
@@ -162,13 +231,60 @@ function BookDetailPath() {
                     <input type="text" id='name'></input>
                     <label htmlFor="email" value={email} onChange={setEmail}>Email:</label>
                     <input type="email" id='email'></input>
-                    <input type='submit'></input>
+                    <input type='submit' value='Claim'></input>
 
                 </form>
-                <p onClick={detailExit}>CLICK TO EXIT</p>
+                
                 </>
                 )}
+
+                {/* end of conditional claim or return form display */}
+                <p>{blurb}</p>
+                {/* now for review writing */}
+                <div className='reviews'>
+                <h3>Reviews</h3>
+                    <form onSubmit={reviewSubmit}>
+                    <label htmlFor="reviewname" value={reviewname} onChange={setReviewName}>Name:</label>
+                    <input type="text" id='reviewname'></input>
+                    <label htmlFor="review" value={reviewText} onChange={setReviewText}>Review:</label>
+                    <input type='text' id='review'></input>
+                    <label htmlFor='rating'>Rating:</label>
+
+                    <select name="rating" id="rating">
+                    <option value='1'>1 Star</option>
+                    <option value='2'>2 Stars</option>
+                    <option value='3'>3 Stars</option>
+                    <option value='4'>4 Stars</option>
+                    <option value='5'>5 Stars</option>
+                    </select>
+
+                    <input type='submit' value='Review'></input>
+                    </form>
+
+                    {reviewList.length > 0 ? (
+                        <>
+                        {reviewList.map(review => 
+                        <Review key={review.id} name={review.name} rating={review.rating} review={review.review} />
+                            // <div className='review-wrapper'>
+                            //     <p>review by: {review.name ? review.name : 'No Name Provided'}</p>
+                            //     <p>rating: {review.rating ? review.rating : 'No Rating Provided'}</p>
+                            //     <p>review: {review.review ? review.review : 'No Review Provided'}</p>
+                            //     <p></p>
+                            // </div>
+                            )}
+                        </>
+
+                    ) : (
+                        <>
+                        <p>No Reviews Yet!</p>
+                        </>
+                    )}
+
+                    <p onClick={detailExit}>Return Home</p>
+                </div>
+                
             </div>
+            
         </div>
     )
 }

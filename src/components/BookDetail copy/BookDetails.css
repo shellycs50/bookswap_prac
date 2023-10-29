@@ -21,6 +21,10 @@ div.book-detail-text {
 
 
 
+div.review-wrapper {
+    border: 2px solid black;
+    padding: 30px;
+}
 
 /* 
 <div className="book-detail-wrapper">
