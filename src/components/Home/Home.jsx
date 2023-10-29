@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import Booklisting from "./Booklisting"
 import './Home.css'
-import BookDetail from "../BookDetail/BookDetail"
 function Home() {
 
 
@@ -39,7 +38,7 @@ function Home() {
         
         {/* {BookData.length > 0 && <Booklisting key={BookData[0].id} title={BookData[0].title} author={BookData[0].author} genre={BookData[0].genre.name} image={BookData[0].image} /> } */}
 
-        {clickedBookId ? <BookDetail clickedBookId={clickedBookId} setClickedBookId={setClickedBookId}/> : (
+        
         
         <div className="all-books-wrapper">
         {BookData.length > 0 && BookData.map(book => 
@@ -49,7 +48,7 @@ function Home() {
                 <Booklisting key={book.id} title={book.title} author={book.author} genre={book.genre} image={book.image} /> 
             })} */}
         </div>
-    )}
+    
         </div>
     )
 }

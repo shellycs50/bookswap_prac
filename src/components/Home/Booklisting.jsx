@@ -3,7 +3,7 @@ import './Booklisting.css'
 import { useNavigate } from 'react-router-dom'
 
 
-function Booklisting({title, author, genre, image, id, setClickedBookId}) {
+function Booklisting({title, author, genre, image, id, claimed}) {
     const navigate = useNavigate();
 
     function BookClick() {

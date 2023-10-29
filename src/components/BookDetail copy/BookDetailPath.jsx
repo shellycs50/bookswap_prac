@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { redirect } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import './BookDetails.css'
 function BookDetailPath() {
@@ -13,7 +13,10 @@ function BookDetailPath() {
     const [reviewList, setReviewList] = useState([])
     const [reviewAverage, setReviewAverage] = useState(0)
     const [reviewCount, setReviewCount] = useState(0)
+    const [claimed, setClaimed] = useState(null)
     const {id} = useParams()
+    
+    const navigate = useNavigate()
 
     useEffect(function () {
         
@@ -32,6 +35,8 @@ function BookDetailPath() {
                 setImgSrc(bookData.data.image)
                 setGenre(bookData.data.genre.name)
                 setReviewList(bookData.data.reviews)
+                setClaimed(bookData.data.claimed_by_name)
+                
                 
             
             
@@ -68,11 +73,54 @@ function BookDetailPath() {
 
     function detailExit() {
         console.log('redirected')
-        return redirect('/')
-        setClickedBookId(null)
+        navigate('/');
         // return redirect('/')
         
 
+    }
+
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [returnEmail, setReturnEmail] = useState('')
+
+    function claimAttempt(event) {
+        // submit claim request for relevant book
+        console.log('submitted')
+        event.preventDefault()
+        console.log(event.target.name.value)
+        let submitted_email = event.target.email.value
+        let submitted_name = event.target.name.value
+
+        fetch('https://book-swap-api.dev.io-academy.uk/api/books/claim/' + id, {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: submitted_name,
+                email: submitted_email,
+            }),
+        })
+        .then((res) => {
+            if (res.ok) {
+                console.log('Claim request submitted successfully.');
+                // Successfully Claimed
+            } else {
+                console.error('Failed to submit claim request.');
+                // Error in Claiming
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Some other error. issue apology.
+        });
+        
+
+    }
+
+    function returnAttempt() {
+        console.log('tried to return a book')
     }
     
 
@@ -90,7 +138,36 @@ function BookDetailPath() {
                 <p>{genre}</p>
                 <p>{reviewCount} reviews - {reviewAverage}/5 stars</p>
                 <p>{blurb}</p>
+                
+                {/* if book is claimed render return book form, else render claim book form */}
+
+                {claimed ? (
+                    <>
+                    <h3>Return this Book</h3>
+                    <p> Enter {claimed}'s Email Address:</p>
+                    <form className='claim-book' onSubmit={returnAttempt}>
+        
+                    <label htmlFor="email" value={returnEmail} onChange={setReturnEmail}>Email:</label>
+                    <input type="email" id='email'></input>
+                    <input type='submit'></input>
+
+                </form>
                 <p onClick={detailExit}>CLICK TO EXIT</p>
+                </>
+                ) : (
+                    <>
+                <h3>Claim this book:</h3>
+                <form className='claim-book' onSubmit={claimAttempt}>
+                    <label htmlFor="name" value={name} onChange={setName}>Name:</label>
+                    <input type="text" id='name'></input>
+                    <label htmlFor="email" value={email} onChange={setEmail}>Email:</label>
+                    <input type="email" id='email'></input>
+                    <input type='submit'></input>
+
+                </form>
+                <p onClick={detailExit}>CLICK TO EXIT</p>
+                </>
+                )}
             </div>
         </div>
     )
