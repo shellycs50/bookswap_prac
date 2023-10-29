@@ -1,0 +1,9 @@
+.book-wrapper img {
+    max-width: 300px;
+    height: auto;
+}
+
+div.book-wrapper {
+    border: 2px solid black;
+    padding-top: 20px;
+}
