@@ -1,0 +1,40 @@
+
+
+div.book-detail-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+div.book-detail-wrapper img {
+    max-width: 300px;
+    height: auto;
+    margin: 20px;
+}
+
+div.book-detail-text {
+    display: flex;
+    flex-direction: column;
+    max-width: 30ch;
+}
+
+
+
+
+/* 
+<div className="book-detail-wrapper">
+            
+            <div>
+            <img src={imgsrc && imgsrc}/>
+            </div>
+            
+            <div>
+                <h3>{title}</h3>
+                <p>{pageCount}</p>
+                <p>{genre}</p>
+                <p>{reviewCount} reviews - {reviewAverage}/5 stars</p>
+                <p>{blurb}</p>
+                <p onClick={detailExit}>CLICK TO EXIT</p>
+            </div>
+        </div> */

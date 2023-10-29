@@ -1,12 +1,16 @@
 
 import './Booklisting.css'
+import { useNavigate } from 'react-router-dom'
 
 
 function Booklisting({title, author, genre, image, id, setClickedBookId}) {
-    
+    const navigate = useNavigate();
 
     function BookClick() {
-        setClickedBookId(id)
+        // setClickedBookId(id)
+        
+        console.log('redirect attempt, url = ', `/books/${id}`)
+        navigate('/books/' + id)
     }
     
     

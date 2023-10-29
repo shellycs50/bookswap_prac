@@ -4,6 +4,7 @@ import './App.css'
 import Home from './components/Home/Home'
 import Nav from './components/Nav/Nav'
 import ClaimedBooks from './components/ClaimedBooks/ClaimedBooks'
+import BookDetailPath from './components/BookDetail copy/BookDetailPath'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
     <Routes>
     <Route path='/' element={<Home />}/>
     <Route path='/claimedbooks' element={<ClaimedBooks />} />
+    <Route path='/books/:id' element={<BookDetailPath />} />
 
     </Routes>
     
