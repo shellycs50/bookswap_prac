@@ -30,7 +30,7 @@ function ClaimedBooks() {
     
     return (
         <div>
-            <p className='margin-me'>this is the homepage</p>
+            <p className='margin-me'>Books that are currently claimed</p>
         
         
 

@@ -221,7 +221,7 @@ function BookDetailPath() {
                     <input type='submit' value='Return'></input>
 
                 </form>
-                <p onClick={detailExit}>CLICK TO EXIT</p>
+                
                 </>
                 ) : (
                     <>
@@ -280,7 +280,7 @@ function BookDetailPath() {
                         </>
                     )}
 
-                    <p onClick={detailExit}>Return Home</p>
+                    <p className='exit-button' onClick={detailExit}>Return Home</p>
                 </div>
                 
             </div>

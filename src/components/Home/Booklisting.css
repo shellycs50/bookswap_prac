@@ -3,7 +3,9 @@
     height: auto;
 }
 
-div.book-wrapper {
+a.book-link {
+    cursor: pointer;
+    margin: 50px;
+    background: white;
     border: 2px solid black;
-    padding-top: 20px;
 }

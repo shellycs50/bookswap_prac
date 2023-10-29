@@ -41,11 +41,19 @@
   color: #888;
 } */
 
+@font-face {
+  font-family: 'coolfont';
+  src: url(../src/assets/fonts/PPMonumentExtended-Regular.otf);
+}
+
+
 body {
   text-align: center;
   font-size: 2vw;
+  font-family: 'coolfont';
 }
 
 #margin-me-papi {
-  margin-top: 10vh;
+  padding-top: 10vh;
+  background: url(../src/assets/images/max-fuchs-Nm6ojlDO-5c-unsplash.jpg)
 }
