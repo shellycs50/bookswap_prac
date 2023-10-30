@@ -15,7 +15,7 @@ div.book-detail-wrapper {
 }
 
 div.book-detail-wrapper img {
-    max-width: 300px;
+    width: 400px;
     height: auto;
     margin: 20px;
 }
@@ -24,8 +24,8 @@ div.book-detail-text {
     display: flex;
     flex-direction: column;
     max-width: 30ch;
-    align-items: center;
-    align-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
 
