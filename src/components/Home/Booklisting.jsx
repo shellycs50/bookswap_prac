@@ -3,7 +3,7 @@ import './Booklisting.css'
 import { useNavigate } from 'react-router-dom'
 
 
-function Booklisting({title, author, genre, image, id, claimed}) {
+function Booklisting({title, author, genre, image, id,}) {
     const navigate = useNavigate();
 
     function BookClick() {
@@ -17,7 +17,7 @@ function Booklisting({title, author, genre, image, id, claimed}) {
 
     
     return (
-        <a onClick={BookClick}>
+        <a className='book-link' onClick={BookClick}>
         <div className="book-wrapper">
             
             {image ? (

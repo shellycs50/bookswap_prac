@@ -29,8 +29,8 @@ function Home() {
 
     
     return (
-        <div>
-            <p className='margin-me'>this is the homepage</p>
+        <div className='home-container'>
+            <p className='margin-me'>Pick a book</p>
         
         
 

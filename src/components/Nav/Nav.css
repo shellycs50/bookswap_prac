@@ -11,6 +11,8 @@ nav {
     left: 0px;
     right: 0px;
     max-height: 10vh;
+    color: black;
+    font-size: 1.3vw;
 }
 
 
@@ -38,7 +40,12 @@ nav {
     text-decoration: none;
     cursor: pointer;
 }
+nav div a {
+    font-weight: 300;
+    color: black;
+}
 
 nav div a.active {
     font-weight: 800;
+    color: #DCFC37;
 }

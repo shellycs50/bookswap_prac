@@ -2,4 +2,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     margin: 10px 20px 10px 20px;
+    
 }
+
+div.home-container {
+    background: url('../../assets/images/max-fuchs-Nm6ojlDO-5c-unsplash.jpg')
+}
+
